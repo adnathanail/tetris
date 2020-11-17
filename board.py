@@ -1,5 +1,7 @@
 from enum import Enum
 from threading import Lock
+from typing import Tuple, Union
+
 from exceptions import NoBlockException
 
 
@@ -135,7 +137,7 @@ class Block(Bitmap):
 
     shape = None
     color = None
-    center = None
+    center: Union[Tuple[float, float], Tuple[int, int]] = None
 
     def __init__(self, shape=None):
         self.shape = shape
@@ -314,8 +316,8 @@ class Board(Bitmap):
     score = None
     lock = None
 
-    falling = None
-    next = None
+    falling: Block = None
+    next: Block = None
 
     players_turn = None
 
@@ -326,6 +328,19 @@ class Board(Bitmap):
         self.cells = set()
         self.cellcolor = {}
         self.lock = Lock()
+
+    def pprint(self):
+        print("-" * self.width)
+        for y in range(self.height):
+            for x in range(self.width):
+                printed = False
+                for cell in self.cells:
+                    if (x, y) == cell:
+                        print("X", end="")
+                        printed = True
+                if not printed:
+                    print(" ", end="")
+            print()
 
     def line_full(self, line):
         """

@@ -137,6 +137,8 @@ def run():
 
         clock.tick(FRAMES_PER_SECOND)
 
+    print(board.score)
+
     while True:
         check_stop()
 
